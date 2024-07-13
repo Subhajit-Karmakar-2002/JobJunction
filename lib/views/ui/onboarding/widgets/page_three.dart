@@ -8,6 +8,7 @@ import 'package:jobjunction/views/common/custom_outline_btn.dart';
 import 'package:jobjunction/views/common/height_spacer.dart';
 import 'package:jobjunction/views/ui/auth/login.dart';
 import 'package:jobjunction/views/ui/auth/signup.dart';
+import 'package:jobjunction/views/ui/mainscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PageThree extends StatelessWidget {
@@ -74,6 +75,9 @@ class PageThree extends StatelessWidget {
                 ),
                 const HeightSpacer(size: 20),
                 GestureDetector(
+                  onTap: () {
+                    Get.to(() => Mainscreen());
+                  },
                   child: Text(
                     "Continue as Guest",
                     style: appstyle(18, Color(kLight.value), FontWeight.normal),

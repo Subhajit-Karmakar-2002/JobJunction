@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jobjunction/controllers/exports.dart';
+import 'package:jobjunction/views/common/drawer/drawerScreen.dart';
 import 'package:jobjunction/views/ui/onboarding/onboarding_screen.dart';
 import 'package:provider/provider.dart';
+
 import 'views/common/exports.dart';
 
 void main() async {
