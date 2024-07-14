@@ -3,13 +3,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jobjunction/controllers/exports.dart';
 import 'package:jobjunction/views/common/drawer/drawerScreen.dart';
+import 'package:jobjunction/views/ui/auth/login.dart';
+import 'package:jobjunction/views/ui/homepage.dart';
+import 'package:jobjunction/views/ui/mainscreen.dart';
 import 'package:jobjunction/views/ui/onboarding/onboarding_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'views/common/exports.dart';
 
+Widget defaultHomeScreen = const OnBoardingScreen();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final entrypoint = prefs.getBool('entrypoint') ?? false;
+  final loggedIn = prefs.getBool('loggedIn') ?? false;
+
+  if (entrypoint && !loggedIn) {
+    defaultHomeScreen = const LoginPage();
+  } else if (entrypoint && loggedIn) {
+    defaultHomeScreen = const Mainscreen();
+  }
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => OnBoardNotifier()),
@@ -44,7 +60,7 @@ class MyApp extends StatelessWidget {
               iconTheme: IconThemeData(color: Color(kDark.value)),
               primarySwatch: Colors.grey,
             ),
-            home: const OnBoardingScreen(),
+            home: defaultHomeScreen,
           );
         });
   }

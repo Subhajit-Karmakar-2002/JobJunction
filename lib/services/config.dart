@@ -1,5 +1,5 @@
 class Config {
-  static const apiUrl = "<server - url>";
+  static const apiUrl = "jobjunction-orio.onrender.com";
   static const String loginUrl = "/api/login";
   static const String signupUrl = "/api/register";
   static const String jobs = "/api/jobs";

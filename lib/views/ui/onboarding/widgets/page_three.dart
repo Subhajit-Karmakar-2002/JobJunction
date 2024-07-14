@@ -57,8 +57,8 @@ class PageThree extends StatelessWidget {
                       onTap: () async {
                         final SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-                        prefs.setBool("entryPoint", true);
-                        Get.to(() => LoginPage());
+                        prefs.setBool("entrypoint", true);
+                        Get.to(() => const LoginPage());
                       },
                     ),
                     CustomOutlineBtn(
@@ -68,7 +68,7 @@ class PageThree extends StatelessWidget {
                       height: height * 0.05,
                       width: width * 0.3,
                       onTap: () {
-                        Get.to(() => RegistrationPage());
+                        Get.to(() => const RegistrationPage());
                       },
                     ),
                   ],
@@ -76,7 +76,7 @@ class PageThree extends StatelessWidget {
                 const HeightSpacer(size: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => Mainscreen());
+                    Get.to(() => const Mainscreen());
                   },
                   child: Text(
                     "Continue as Guest",

@@ -25,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
           controller: search,
           suffixIcon: GestureDetector(
             onTap: () {},
-            child: Icon(
+            child: const Icon(
               Icons.search,
             ),
           ),
@@ -34,7 +34,7 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

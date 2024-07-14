@@ -9,6 +9,7 @@ import 'package:jobjunction/constants/app_constants.dart';
 import 'package:jobjunction/controllers/zoom_provider.dart';
 import 'package:jobjunction/views/common/drawer/drawerScreen.dart';
 import 'package:jobjunction/views/ui/auth/profile.dart';
+import 'package:jobjunction/views/ui/auth/update_user.dart';
 import 'package:jobjunction/views/ui/bookmarks/bookmarks.dart';
 import 'package:jobjunction/views/ui/chat/chatpage.dart';
 import 'package:jobjunction/views/ui/device_mgt/devices_info.dart';
@@ -37,7 +38,7 @@ class _MainscreenState extends State<Mainscreen> {
             menuBackgroundColor: Color(kLightBlue.value),
             angle: 0.0,
             slideWidth: 250,
-            mainScreen: CurrentScreen(),
+            mainScreen: PersonalDetails(),
           );
         },
       ),

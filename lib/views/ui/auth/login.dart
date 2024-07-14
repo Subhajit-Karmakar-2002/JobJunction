@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jobjunction/controllers/exports.dart';
+import 'package:jobjunction/models/request/auth/login_model.dart';
 import 'package:jobjunction/views/common/app_bar.dart';
 import 'package:jobjunction/views/common/custom_btn.dart';
 import 'package:jobjunction/views/common/custom_textfield.dart';
@@ -19,8 +20,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+
+  bool validateAndSave() {
+    final form = loginFormKey.currentState;
+    if (form != null && form.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   void dispose() {
@@ -33,17 +45,21 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Consumer<LoginNotifier>(
       builder: (context, loginNotifier, child) {
+        loginNotifier.getPrefs();
+
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
             child: CustomAppBar(
               text: "Login",
-              child: GestureDetector(
-                child: const Icon(CupertinoIcons.arrow_left),
-                onTap: () {
-                  Get.back();
-                },
-              ),
+              child: loginNotifier.entrypoint && !loginNotifier.loggedIn
+                  ? const SizedBox.shrink()
+                  : GestureDetector(
+                      child: const Icon(CupertinoIcons.arrow_left),
+                      onTap: () {
+                        Get.back();
+                      },
+                    ),
             ),
           ),
           body: Padding(
@@ -112,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(RegistrationPage());
+                      Get.to(const RegistrationPage());
                     },
                     child: ReusableText(
                       text: "Register",
@@ -124,10 +140,24 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                HeightSpacer(size: 20),
+                const HeightSpacer(size: 20),
                 CustomButton(
                   text: "Login",
-                  ontap: () {},
+                  ontap: () {
+                    LoginModel model =
+                        LoginModel(email: email.text, password: password.text);
+                    loginNotifier.userLogin(model);
+                    // if (loginNotifier.validateAndSave()) {
+                    // } else {
+                    //   Get.snackbar(
+                    //     'Login Failed',
+                    //     'Please check your credentials',
+                    //     colorText: Color(kLight.value),
+                    //     backgroundColor: Colors.red,
+                    //     icon: const Icon(Icons.add_alert),
+                    //   );
+                    // }
+                  },
                 )
               ],
             ),
