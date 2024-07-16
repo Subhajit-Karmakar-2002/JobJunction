@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:jobjunction/constants/app_constants.dart';
+import 'package:jobjunction/controllers/bookmark_provider.dart';
+import 'package:jobjunction/models/request/bookmarks/bookmarks_model.dart';
 import 'package:jobjunction/models/response/jobs/jobs_response.dart';
 import 'package:jobjunction/views/common/app_bar.dart';
 import 'package:jobjunction/views/common/custom_outline_btn.dart';
+import 'package:provider/provider.dart';
 
 class JobDetails extends StatefulWidget {
-  const JobDetails({super.key});
-
+  JobDetails({super.key, this.job});
+  JobsResponse? job;
   @override
   State<JobDetails> createState() => _JobDetailsState();
 }
@@ -20,20 +24,42 @@ class _JobDetailsState extends State<JobDetails> {
         preferredSize: const Size.fromHeight(50),
         child: CustomAppBar(
           actions: [
-            GestureDetector(
-              child: const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(
-                  Icons.bookmark,
-                  size: 30,
-                ),
-              ),
+            Consumer<BookMarkNotifier>(
+              builder: (context, bookMarkNotifier, child) {
+                bookMarkNotifier.loadJobs();
+
+                return GestureDetector(
+                  onTap: () {
+                    if (!bookMarkNotifier.jobs.contains(widget.job!.id)) {
+                      BookmarkReqResModel model =
+                          BookmarkReqResModel(job: widget.job!.id);
+                      bookMarkNotifier.addBookmark(model, widget.job!.id);
+                    } else {
+                      bookMarkNotifier.deleteBookmark(widget.job!.id);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: !bookMarkNotifier.jobs.contains(widget.job!.id)
+                        ? const Icon(Icons.bookmark_border_outlined)
+                        : const Icon(Icons.bookmark),
+                  ),
+                );
+              },
             ),
           ],
-          child: const Padding(
-            padding: EdgeInsets.all(10),
-            // child: BackBtn(),
-          ),
+          text: "Job",
+          child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: const Icon(
+                  Icons.arrow_back,
+                  size: 30,
+                ),
+              )),
         ),
       ),
       body: Padding(
@@ -61,14 +87,14 @@ class _JobDetailsState extends State<JobDetails> {
                       CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
-                          "job.imageUrl",
+                          widget.job!.imageurl,
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       Text(
-                        "job.title",
+                        widget.job!.title,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -78,7 +104,7 @@ class _JobDetailsState extends State<JobDetails> {
                         height: 10,
                       ),
                       Text(
-                        "job.location",
+                        widget.job!.location,
                         style: const TextStyle(
                           fontSize: 15,
                         ),
@@ -95,11 +121,11 @@ class _JobDetailsState extends State<JobDetails> {
                           children: [
                             CustomOutlineBtn(
                               color2: Color(kLight.value),
-                              text: "job.contract",
+                              text: widget.job!.contract,
                               color: Color(kOrange.value),
                             ),
                             Text(
-                              " job.salary",
+                              "${widget.job!.salary}/Monthly",
                             ),
                           ],
                         ),
@@ -121,7 +147,7 @@ class _JobDetailsState extends State<JobDetails> {
                   height: 10,
                 ),
                 Text(
-                  "job.description",
+                  widget.job!.description,
                   maxLines: 9,
                 ),
                 const SizedBox(
@@ -140,10 +166,17 @@ class _JobDetailsState extends State<JobDetails> {
                 SizedBox(
                   height: height * 0.6,
                   child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 2,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: widget.job!.requirements.length,
                     itemBuilder: (context, index) {
-                      return Text("job.requirements[index]");
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        child: Text(
+                          widget.job!.requirements[index],
+                        ),
+                      );
                     },
                   ),
                 ),

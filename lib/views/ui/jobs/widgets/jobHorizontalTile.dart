@@ -16,6 +16,7 @@ class Jobhorizontaltile extends StatelessWidget {
   final JobsResponse? job;
   @override
   Widget build(BuildContext context) {
+    // print(job.imageUrl);
     return GestureDetector(
       onTap: onTap,
       child: Padding(
@@ -28,7 +29,7 @@ class Jobhorizontaltile extends StatelessWidget {
             height: height * 0.28,
             decoration: BoxDecoration(
               image: const DecorationImage(
-                image: AssetImage("assets/images/user.png"),
+                image: AssetImage("assets/images/jobs.png"),
                 fit: BoxFit.contain,
                 opacity: 0.5,
               ),
@@ -39,40 +40,35 @@ class Jobhorizontaltile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    // CircleAvatar(
-                    //   backgroundImage: NetworkImage(job.imageUrl),
-                    // ),
+                    CircleAvatar(
+                      backgroundImage: job!.imageurl != null
+                          ? NetworkImage(job!.imageurl)
+                          : AssetImage('assets/images/jobs.png')
+                              as ImageProvider,
+                    ),
                     SizedBox(
                       width: width * 0.02,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(kLight.value),
-                        borderRadius: BorderRadius.all(Radius.circular(12.w)),
-                      ),
-                      padding: const EdgeInsets.all(8),
-                      width: width * 0.5,
-                      child: Text(
-                        "Google",
-                        style: const TextStyle(color: Colors.black),
-                      ),
-                    ),
+                    ReusableText(
+                        text: job!.company,
+                        style:
+                            appstyle(18, Color(kDark.value), FontWeight.w700)),
                   ],
                 ),
                 const HeightSpacer(
                   size: 10,
                 ),
                 ReusableText(
-                  text: "Flutter Job",
+                  text: job!.title,
                   style: appstyle(16, Color(kDark.value), FontWeight.bold),
                 ),
                 const HeightSpacer(
                   size: 10,
                 ),
                 ReusableText(
-                  text: "Pune",
+                  text: job!.location,
                   style: appstyle(13, Color(kDark.value), FontWeight.normal),
                 ),
                 const HeightSpacer(
@@ -82,8 +78,7 @@ class Jobhorizontaltile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ReusableText(
-                      text: " 25k/Monthly",
-                      // text: " ${job.salary}/Monthly",
+                      text: " ${job!.salary}/Monthly",
                       style: appstyle(15, Color(kDark.value), FontWeight.bold),
                     ),
                     CircleAvatar(

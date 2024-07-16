@@ -38,7 +38,7 @@ class _MainscreenState extends State<Mainscreen> {
             menuBackgroundColor: Color(kLightBlue.value),
             angle: 0.0,
             slideWidth: 250,
-            mainScreen: PersonalDetails(),
+            mainScreen: CurrentScreen(),
           );
         },
       ),

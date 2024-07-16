@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:jobjunction/controllers/exports.dart';
 import 'package:jobjunction/views/common/app_style.dart';
 import 'package:jobjunction/views/common/custom_btn.dart';
 import 'package:jobjunction/views/common/custom_textfield.dart';
 import 'package:jobjunction/views/common/exports.dart';
 import 'package:jobjunction/views/common/height_spacer.dart';
+import 'package:jobjunction/views/ui/mainscreen.dart';
 import 'package:jobjunction/views/ui/search/widgets/custom_field.dart';
 import 'package:provider/provider.dart';
 
@@ -166,7 +168,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     HeightSpacer(size: 20),
                     CustomButton(
                       text: "Update Info",
-                      ontap: () {},
+                      ontap: () {
+                        Get.to(() => Mainscreen());
+                      },
                     ),
                   ],
                 ),
