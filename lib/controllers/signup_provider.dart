@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:jobjunction/constants/app_constants.dart';
+import 'package:jobjunction/models/request/auth/signup_model.dart';
+import 'package:jobjunction/services/helpers/auth_helper.dart';
+import 'package:jobjunction/views/ui/auth/login.dart';
 
 class SignUpNotifier extends ChangeNotifier {
 // trigger to hide and unhide the password
@@ -31,8 +37,6 @@ class SignUpNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  final signupFormKey = GlobalKey<FormState>();
-
   bool passwordValidator(String password) {
     if (password.isEmpty) return false;
     String pattern =
@@ -41,6 +45,7 @@ class SignUpNotifier extends ChangeNotifier {
     return regex.hasMatch(password);
   }
 
+  final signupFormKey = GlobalKey<FormState>();
   bool validateAndSave() {
     final form = signupFormKey.currentState;
     if (form!.validate()) {
@@ -49,5 +54,29 @@ class SignUpNotifier extends ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  signup(SignupModel model) {
+    AuthHelper.signUp(model).then((response) => {
+        
+          if (response)
+            {
+              Get.offAll(
+                () => LoginPage(),
+                transition: Transition.fade,
+                duration: Duration(seconds: 2),
+              ),
+            }
+          else
+            {
+              Get.snackbar(
+                "SignUp fail",
+                "Try again",
+                colorText: Color(kLight.value),
+                backgroundColor: Colors.red,
+                icon: const Icon(Icons.add_alert),
+              ),
+            }
+        });
   }
 }

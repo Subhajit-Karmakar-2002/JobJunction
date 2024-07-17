@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobjunction/constants/app_constants.dart';
 import 'package:jobjunction/models/request/auth/login_model.dart';
+import 'package:jobjunction/models/request/auth/profile_update_model.dart';
 import 'package:jobjunction/services/helpers/auth_helper.dart';
 import 'package:jobjunction/views/ui/auth/update_user.dart';
 import 'package:jobjunction/views/ui/homepage.dart';
@@ -72,9 +75,9 @@ class LoginNotifier extends ChangeNotifier {
     );
   }
 
-  // final loginFormKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  // final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   final profileFormKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
 
   bool validateAndSave() {
     final form = loginFormKey.currentState;
@@ -87,10 +90,52 @@ class LoginNotifier extends ChangeNotifier {
     }
   }
 
+  bool profileValidation() {
+    final form = profileFormKey.currentState;
+    if (form != null && form.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('loggedIn', false);
     await prefs.remove('token');
     _firstTime = false;
+  }
+
+  updateProfile(ProfileUpdateReq model) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    AuthHelper.updateProfile(model).then((response) => {
+          if (response)
+            {
+              Get.snackbar(
+                "Profile Updated",
+                "Enjoy your search",
+                colorText: Color(kLight.value),
+                backgroundColor: Colors.green,
+                icon: const Icon(Icons.add_alert),
+              ),
+              Future.delayed(const Duration(seconds: 1)).then(
+                (Value) {
+                  Get.offAll(() => const Mainscreen());
+                },
+              ),
+            }
+          else
+            {
+              Get.snackbar(
+                "Update fail",
+                "Try again",
+                colorText: Color(kLight.value),
+                backgroundColor: Colors.red,
+                icon: const Icon(Icons.add_alert),
+              ),
+            }
+        });
   }
 }
