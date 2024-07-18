@@ -144,6 +144,8 @@ class _LoginPageState extends State<LoginPage> {
                 CustomButton(
                   text: "Login",
                   ontap: () {
+                    loginNotifier.loggedIn = true;
+                    print(loginNotifier.loggedIn);
                     LoginModel model =
                         LoginModel(email: email.text, password: password.text);
                     loginNotifier.userLogin(model);

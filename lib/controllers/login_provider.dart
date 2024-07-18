@@ -9,6 +9,7 @@ import 'package:jobjunction/services/helpers/auth_helper.dart';
 import 'package:jobjunction/views/ui/auth/update_user.dart';
 import 'package:jobjunction/views/ui/homepage.dart';
 import 'package:jobjunction/views/ui/mainscreen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginNotifier extends ChangeNotifier {
@@ -52,6 +53,7 @@ class LoginNotifier extends ChangeNotifier {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _entrypoint = prefs.getBool('entrypoint') ?? false;
     _loggedIn = prefs.getBool('loggedIn') ?? false;
+
     notifyListeners();
   }
 
@@ -61,6 +63,7 @@ class LoginNotifier extends ChangeNotifier {
         if (response && firstTime) {
           Get.off(() => const PersonalDetails());
         } else if (response && !firstTime) {
+          loggedIn = true;
           Get.off(() => const HomePage());
         } else if (!response) {
           Get.snackbar(

@@ -1,18 +1,17 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
-import 'package:http/http.dart' as https;
-import 'package:jobjunction/models/request/chat/create_chat.dart';
+import 'package:http/http.dart' as http;
+import 'package:jobjunction/models/request/message/send_message.dart';
 import 'package:jobjunction/models/response/chat/get_chat.dart';
 import 'package:jobjunction/models/response/chat/initial_message.dart';
+import 'package:jobjunction/models/response/message/messaging_response.dart';
 import 'package:jobjunction/services/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChatHelper {
-  static var client = https.Client();
+class MessagingHelper {
+  static var client = http.Client();
 
-//apply for job
-  static Future<List<dynamic>> apply(CreateChat model) async {
+  static Future<List<dynamic>> sendMessage(SendMessage model) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("token");
 
@@ -21,21 +20,22 @@ class ChatHelper {
       'token': 'Bearer $token'
     };
 
-    var url = Uri.https(Config.apiUrl, Config.chatsUrl);
+    var url = Uri.https(Config.apiUrl, Config.messagingUrl);
     var response = await client.post(url,
         headers: requestHeaders, body: jsonEncode(model.toJson()));
     if (response.statusCode == 200) {
-      var first = initialChatFromJson(response.body).id;
+      ReceivedMessage message =
+          ReceivedMessage.fromJson(jsonDecode(response.body));
 
-      return [true, first];
+      Map<String, dynamic> responseMap = jsonDecode(response.body);
+      return [true, message, responseMap];
     } else {
       return [false];
     }
   }
 
-//get conversation
-  static Future<List<GetChats>> getConversation() async {
-    var url = Uri.https(Config.apiUrl, Config.chatsUrl);
+  static Future<List<ReceivedMessage>> getMessage(
+      String chatId, int offset) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("token");
 
@@ -43,13 +43,16 @@ class ChatHelper {
       'Content-type': 'application/json',
       'token': 'Bearer $token'
     };
-    var response = await client.get(url, headers: requestHeaders);
 
+    var url = Uri.https(Config.apiUrl, "${Config.messagingUrl}/$chatId",
+        {"page": offset.toString()});
+    var response = await client.get(url, headers: requestHeaders);
+    // print(response.body);
     if (response.statusCode == 200) {
-      var data = getChatsFromJson(response.body);
-      return data;
+      var message = receivedMessageFromJson(response.body);
+      return message;
     } else {
-      throw Exception("Error loading chat");
+      throw Exception("Not able to get message");
     }
   }
 }

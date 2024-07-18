@@ -11,7 +11,8 @@ import 'package:jobjunction/views/common/drawer/drawerScreen.dart';
 import 'package:jobjunction/views/ui/auth/profile.dart';
 import 'package:jobjunction/views/ui/auth/update_user.dart';
 import 'package:jobjunction/views/ui/bookmarks/bookmarks.dart';
-import 'package:jobjunction/views/ui/chat/chatpage.dart';
+import 'package:jobjunction/views/ui/chat/chat_page.dart';
+import 'package:jobjunction/views/ui/chat/chats_list.dart';
 import 'package:jobjunction/views/ui/device_mgt/devices_info.dart';
 import 'package:jobjunction/views/ui/homepage.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class _MainscreenState extends State<Mainscreen> {
             ),
             menuBackgroundColor: Color(kLightBlue.value),
             angle: 0.0,
-            slideWidth: 250,
+            slideWidth: 200,
             mainScreen: CurrentScreen(),
           );
         },

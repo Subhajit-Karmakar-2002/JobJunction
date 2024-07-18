@@ -68,9 +68,7 @@ class BookMarkHelper {
       headers: requestHeaders,
     );
     if (response.statusCode == 200) {
-      var bookmarks = allBookMarkFromJson(response.body);
-      print("<>>>>>>>>>>>>>>>>>>Fetch>");
-      
+      var bookmarks = allBookMarkFromJson(response.body);    
       return bookmarks;
     } else {
       throw Exception('Failed to load jobs');

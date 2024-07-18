@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:jobjunction/controllers/chat_provider.dart';
 import 'package:jobjunction/controllers/exports.dart';
 import 'package:jobjunction/firebase_options.dart';
 import 'package:jobjunction/views/common/drawer/drawerScreen.dart';
@@ -38,6 +39,7 @@ void main() async {
     ChangeNotifierProvider(create: (context) => BookMarkNotifier()),
     ChangeNotifierProvider(create: (context) => ImageUploader()),
     ChangeNotifierProvider(create: (context) => ProfileNotifier()),
+    ChangeNotifierProvider(create: (context) => ChatNotifier()),
   ], child: const MyApp()));
 }
 

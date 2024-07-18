@@ -3,11 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jobjunction/constants/app_constants.dart';
 import 'package:jobjunction/controllers/bookmark_provider.dart';
+import 'package:jobjunction/controllers/exports.dart';
 import 'package:jobjunction/models/request/bookmarks/bookmarks_model.dart';
+import 'package:jobjunction/models/request/chat/create_chat.dart';
+import 'package:jobjunction/models/request/message/send_message.dart';
 import 'package:jobjunction/models/response/jobs/jobs_response.dart';
+import 'package:jobjunction/services/helpers/chat_helper.dart';
+import 'package:jobjunction/services/helpers/messaging_helper.dart';
 import 'package:jobjunction/views/common/app_bar.dart';
 import 'package:jobjunction/views/common/custom_outline_btn.dart';
+import 'package:jobjunction/views/ui/mainscreen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class JobDetails extends StatefulWidget {
   JobDetails({super.key, this.job});
@@ -182,17 +189,41 @@ class _JobDetailsState extends State<JobDetails> {
                 ),
               ],
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 20.w),
-                child: CustomOutlineBtn(
-                  height: height * 0.06,
-                  text: "Please Login",
-                  color: Color(kLight.value),
-                  color2: Color(kOrange.value),
-                ),
-              ),
+            Consumer<LoginNotifier>(
+              builder: (context, value, child) {
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 20.w),
+                    child: CustomOutlineBtn(
+                      onTap: () {
+                        CreateChat model =
+                            CreateChat(userId: widget.job!.agentId);
+                        ChatHelper.apply(model).then((response) {
+                          print(response);
+                          if (response[0]) {
+                            SendMessage model = SendMessage(
+                              content:
+                                  "Hello, I'm interested in ${widget.job!.title} job you posted in ${widget.job!.location}",
+                              chatId: response[1],
+                              receiver: widget.job!.agentId,
+                            );
+                            MessagingHelper.sendMessage(model).whenComplete(() {
+                              Get.to(() => Mainscreen());
+                            });
+                          } else {
+                            Get.snackbar("Error", "Something went wrong");
+                          }
+                        });
+                      },
+                      height: height * 0.06,
+                      text: value.loggedIn ? "Apply" : "Please Login",
+                      color: Color(kLight.value),
+                      color2: Color(kOrange.value),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
