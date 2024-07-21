@@ -47,7 +47,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         : Color(kLightGrey.value)),
                 drawerItem(
                     Fontisto.bookmark,
-                    "Bookmarks",
+                    "Add Job",
                     2,
                     zoomNotifier.currentIndex == 2
                         ? Color(kLight.value)

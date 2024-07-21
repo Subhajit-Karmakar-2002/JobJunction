@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:jobjunction/controllers/chat_provider.dart';
 import 'package:jobjunction/controllers/exports.dart';
 import 'package:jobjunction/firebase_options.dart';
+import 'package:jobjunction/views/common/drawer/drawerScreen.dart';
 import 'package:jobjunction/views/ui/auth/login.dart';
+import 'package:jobjunction/views/ui/homepage.dart';
 import 'package:jobjunction/views/ui/mainscreen.dart';
 import 'package:jobjunction/views/ui/onboarding/onboarding_screen.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +54,6 @@ class MyApp extends StatelessWidget {
         useInheritedMediaQuery: true,
         designSize: const Size(375, 812),
         minTextAdapt: true,
-        
         splitScreenMode: true,
         builder: (context, child) {
           return GetMaterialApp(

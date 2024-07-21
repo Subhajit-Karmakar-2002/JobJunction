@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                       size: 20,
                     ),
                     Text(
-                      "Search \nFind & Apply",
+                      "Welcome",
                       style: appstyle(40, Color(kDark.value), FontWeight.bold),
                     ),
                     const HeightSpacer(size: 40),

@@ -12,7 +12,7 @@ class CreateJobsRequest {
         required this.salary,
         required this.period,
         required this.contract,
-        required this.imageUrl,
+        required this.imageurl,
         required this.agentId,
         required this.requirements,
     });
@@ -25,7 +25,7 @@ class CreateJobsRequest {
     final String salary;
     final String period;
     final String contract;
-    final String imageUrl;
+    final String imageurl;
     final String agentId;
     final List<String> requirements;
 
@@ -38,7 +38,7 @@ class CreateJobsRequest {
         "salary": salary,
         "period": period,
         "contract": contract,
-        "imageUrl": imageUrl,
+        "imageurl": imageurl,
         "agentId": agentId,
         "requirements": List<dynamic>.from(requirements.map((x) => x)),
     };

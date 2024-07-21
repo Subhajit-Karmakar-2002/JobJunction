@@ -22,6 +22,10 @@ class LoginNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isagent = true;
+
+  bool get isagent => _isagent;
+
   bool _firstTime = true;
 
   bool get firstTime => _firstTime;
