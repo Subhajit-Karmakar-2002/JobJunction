@@ -133,12 +133,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   CustomButton(
                     text: "SignUp",
                     ontap: () {
-                      loginNotifier.firstTime = !loginNotifier.firstTime;
                       if (signupNotifier.validateAndSave()) {
                         SignupModel model = SignupModel(
-                            email: email.text,
-                            password: password.text,
-                            username: name.text);
+                          email: email.text,
+                          password: password.text,
+                          username: name.text,
+                          isadmin: true,
+                          isagent: true,
+                        );
                         signupNotifier.signup(model);
                       }
                     },

@@ -61,87 +61,96 @@ class _AddjobState extends State<Addjob> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          JobTextField(
-            controller: title,
-            hintext: "Title",
-          ),
-          JobTextField(
-            controller: loc,
-            hintext: "Location",
-          ),
-          JobTextField(
-            controller: desc,
-            hintext: "Description",
-          ),
-          JobTextField(
-            controller: company,
-            hintext: "Company",
-          ),
-          JobTextField(
-            controller: salary,
-            hintext: "Salary",
-          ),
-          JobTextField(
-            controller: period,
-            hintext: "Period",
-          ),
-          JobTextField(
-            controller: contract,
-            hintext: "Contract",
-          ),
-          GestureDetector(
-            onTap: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              String? userid = prefs.getString('userId');
-
-              CreateJobsRequest model = CreateJobsRequest(
-                title: title.text,
-                location: loc.text,
-                company: company.text,
-                hiring: true,
-                description: desc.text,
-                salary: salary.text,
-                period: period.text,
-                contract: contract.text,
-                imageurl:
-                    "https://img.freepik.com/free-vector/colorful-company-logo-template-with-tagline_23-2148802643.jpg",
-                agentId: userid!,
-                requirements: ["requirements", "requirements", "requirements"],
-              );
-
-              Future<bool> response = JobsHelper.createJobs(model);
-              if (await response) {
-                Get.snackbar(
-                  "Job added",
-                  "Success",
-                  colorText: Color(kLight.value),
-                  backgroundColor: Colors.green,
-                  icon: const Icon(Icons.add_alert),
-                );
-                Provider.of<ZoomNotifier>(context, listen: false).currentIndex =
-                    0;
-                // Get.to(() => Ho());
-              } else {
-                Get.snackbar(
-                  "Job added",
-                  "Failed",
-                  colorText: Color(kLight.value),
-                  backgroundColor: Colors.red,
-                  icon: const Icon(Icons.add_alert),
-                );
-              }
-              ;
-            },
-            child: Container(
-              width: double.infinity,
-              height: 40,
-              decoration: const BoxDecoration(color: Colors.orange),
-              child: const Center(child: Text("Add Job")),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            JobTextField(
+              controller: title,
+              hintext: "Title",
             ),
-          )
-        ],
+            JobTextField(
+              controller: loc,
+              hintext: "Location",
+            ),
+            JobTextField(
+              controller: desc,
+              hintext: "Description",
+            ),
+            JobTextField(
+              controller: company,
+              hintext: "Company",
+            ),
+            JobTextField(
+              controller: salary,
+              hintext: "Salary",
+            ),
+            JobTextField(
+              controller: period,
+              hintext: "Period",
+            ),
+            JobTextField(
+              controller: contract,
+              hintext: "Contract",
+            ),
+            GestureDetector(
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                String? userid = prefs.getString('userId');
+
+                CreateJobsRequest model = CreateJobsRequest(
+                  title: title.text,
+                  location: loc.text,
+                  company: company.text,
+                  hiring: true,
+                  description: desc.text,
+                  salary: salary.text,
+                  period: period.text,
+                  contract: contract.text,
+                  imageurl:
+                      "https://img.freepik.com/free-vector/colorful-company-logo-template-with-tagline_23-2148802643.jpg",
+                  agentId: userid!,
+                  requirements: [
+                    "requirements",
+                    "requirements",
+                    "requirements"
+                  ],
+                );
+
+                Future<bool> response = JobsHelper.createJobs(model);
+
+                if (await response) {
+                  Get.snackbar(
+                    "Job added",
+                    "Success",
+                    colorText: Color(kLight.value),
+                    backgroundColor: Colors.green,
+                    icon: const Icon(Icons.add_alert),
+                  );
+                  Provider.of<ZoomNotifier>(context, listen: false)
+                      .currentIndex = 0;
+                  Get.to(
+                    () => const Mainscreen(),
+                  );
+                } else {
+                  Get.snackbar(
+                    "Job added",
+                    "Failed",
+                    colorText: Color(kLight.value),
+                    backgroundColor: Colors.red,
+                    icon: const Icon(Icons.add_alert),
+                  );
+                }
+                ;
+              },
+              child: Container(
+                width: double.infinity,
+                height: 40,
+                decoration: const BoxDecoration(color: Colors.orange),
+                child: const Center(child: Text("Add Job")),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

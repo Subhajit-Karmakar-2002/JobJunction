@@ -14,6 +14,7 @@ import 'package:jobjunction/views/common/exports.dart';
 import 'package:jobjunction/views/common/height_spacer.dart';
 import 'package:jobjunction/views/common/app_style.dart';
 import 'package:jobjunction/views/ui/auth/update_user.dart';
+import 'package:jobjunction/views/ui/mainscreen.dart';
 import 'package:jobjunction/views/ui/onboarding/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 

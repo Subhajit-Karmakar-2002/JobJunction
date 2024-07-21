@@ -17,7 +17,6 @@ class AuthHelper {
     var url = Uri.https(Config.apiUrl, Config.loginUrl);
     var response = await client.post(url,
         headers: requestHeaders, body: jsonEncode(model));
-    print(response.body);
     if (response.statusCode == 200) {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       Map<String, dynamic> res = json.decode(response.body);
@@ -25,7 +24,6 @@ class AuthHelper {
       String token = res['token'];
       String userId = res['_id'];
       String profile = res['profile'];
-      print(token);
       await prefs.setString("token", token);
       await prefs.setString("userId", userId);
       await prefs.setString("profile", profile);
@@ -44,7 +42,7 @@ class AuthHelper {
 
     var response = await client.post(url,
         headers: requestHeaders, body: jsonEncode(model.toJson()));
-    print(response.statusCode);
+  
     if (response.statusCode == 201) {
       return true;
     } else {

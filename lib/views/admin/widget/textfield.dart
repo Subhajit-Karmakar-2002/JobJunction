@@ -11,8 +11,8 @@ class JobTextField extends StatelessWidget {
         horizontal: 20,
         vertical: 10,
       ),
-      width: double.infinity,
-      height: 40,
+      // width: double.infinity,
+      // height: 40,
       child: TextField(
         controller: controller,
         decoration: InputDecoration(

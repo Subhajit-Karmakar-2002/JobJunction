@@ -28,14 +28,7 @@ class SignUpNotifier extends ChangeNotifier {
   }
 
 // triggered when the fist time when user login to be prompted to the update profile page
-  bool _firstTime = false;
 
-  bool get firstTime => _firstTime;
-
-  set firstTime(bool newValue) {
-    _firstTime = newValue;
-    notifyListeners();
-  }
 
   bool passwordValidator(String password) {
     if (password.isEmpty) return false;
@@ -62,9 +55,9 @@ class SignUpNotifier extends ChangeNotifier {
           if (response)
             {
               Get.offAll(
-                () => LoginPage(),
+                () => const LoginPage(),
                 transition: Transition.fade,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
               ),
             }
           else

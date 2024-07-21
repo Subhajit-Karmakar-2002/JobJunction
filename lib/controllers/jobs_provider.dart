@@ -16,8 +16,8 @@ class JobsNotifier extends ChangeNotifier {
 
   String get userid => _userid;
 
-  set userid(String lastpage) {
-    _userid = lastpage;
+  set userid(String uid) {
+    _userid = uid;
     notifyListeners();
   }
 
@@ -28,20 +28,12 @@ class JobsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  getprefs() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final uid = prefs.getString('userId');
-    userid = uid!;
-
-    // notifyListeners();
-  }
-
   getJobs() {
     joblist = JobsHelper.getJobs();
   }
 
   getAgentJob() {
-    agentjoblist = JobsHelper.getAgentJobs(userid);
+    agentjoblist = JobsHelper.getAgentJobs();
   }
 
   getJob(String jobid) {

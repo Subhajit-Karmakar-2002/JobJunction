@@ -21,12 +21,12 @@ class JobsHelper {
       'Content-type': 'application/json',
       'token': 'Bearer $token'
     };
-    print(model.imageurl);
     var response = await client.post(
       url,
       headers: requestHeaders,
       body: jsonEncode(model.toJson()),
     );
+    print(response.body);
 
     if (response.statusCode == 201) {
       return true;
@@ -61,7 +61,7 @@ class JobsHelper {
     Map<String, String> requestHeaders = {'Content-type': 'application/json'};
     var url = Uri.https(Config.apiUrl, Config.job);
     var response = await client.get(url, headers: requestHeaders);
-
+  
     if (response.statusCode == 200) {
       var jobList = jobsResponseFromJson(response.body);
       return jobList;
@@ -70,11 +70,13 @@ class JobsHelper {
     }
   }
 
-  static Future<List<JobsResponse>> getAgentJobs(String id) async {
+  static Future<List<JobsResponse>> getAgentJobs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, String> requestHeaders = {'Content-type': 'application/json'};
-    var url = Uri.https(Config.apiUrl, "${Config.job}/agent/$id");
+    var url = Uri.https(
+        Config.apiUrl, "${Config.job}/agent/${prefs.getString('userId')}");
     var response = await client.get(url, headers: requestHeaders);
-
+    print(response.body);
     if (response.statusCode == 200) {
       var jobList = jobsResponseFromJson(response.body);
       return jobList;

@@ -26,14 +26,17 @@ class LoginNotifier extends ChangeNotifier {
 
   bool get isagent => _isagent;
 
-  bool _firstTime = true;
 
+  bool _firstTime = true;
   bool get firstTime => _firstTime;
 
   set firstTime(bool value) {
     _firstTime = value;
     notifyListeners();
   }
+
+
+
 
   bool? _entrypoint;
 
@@ -62,6 +65,7 @@ class LoginNotifier extends ChangeNotifier {
   }
 
   userLogin(LoginModel model) {
+    print(firstTime);
     AuthHelper.login(model).then(
       (response) {
         if (response && firstTime) {
@@ -71,7 +75,7 @@ class LoginNotifier extends ChangeNotifier {
           Get.off(() => const HomePage());
         } else if (!response) {
           Get.snackbar(
-            'Sign Failed',
+            'Login Failed',
             'Please check your credentials',
             colorText: Color(kLight.value),
             backgroundColor: Colors.red,

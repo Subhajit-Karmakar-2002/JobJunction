@@ -52,9 +52,9 @@ class Jobhorizontaltile extends StatelessWidget {
                       width: width * 0.02,
                     ),
                     ReusableText(
-                        text: job!.company,
-                        style:
-                            appstyle(18, Color(kDark.value), FontWeight.w700)),
+                      text: job!.company,
+                      style: appstyle(18, Color(kDark.value), FontWeight.w700),
+                    ),
                   ],
                 ),
                 const HeightSpacer(
@@ -90,6 +90,17 @@ class Jobhorizontaltile extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                Container(
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: job!.hiring ? Colors.green : Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    job!.hiring ? "Hiring" : "Closed",
+                    style: appstyle(12, Color(kLight.value), FontWeight.w700),
+                  ),
                 )
               ],
             ),

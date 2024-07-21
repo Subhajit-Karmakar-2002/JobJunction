@@ -9,8 +9,10 @@ import 'package:jobjunction/models/request/updateJobModel.dart';
 import 'package:jobjunction/models/response/bookmarks/all_bookmark_response.dart';
 import 'package:jobjunction/models/response/jobs/jobs_response.dart';
 import 'package:jobjunction/services/helpers/jobs_helper.dart';
+import 'package:jobjunction/views/admin/widget/editTextfield.dart';
 import 'package:jobjunction/views/admin/widget/textfield.dart';
 import 'package:jobjunction/views/common/app_bar.dart';
+import 'package:jobjunction/views/common/app_style.dart';
 import 'package:jobjunction/views/common/height_spacer.dart';
 import 'package:jobjunction/views/ui/mainscreen.dart';
 import 'package:provider/provider.dart';
@@ -87,99 +89,93 @@ class _EditJobPageState extends State<EditJobPage> {
           ),
         ),
       ),
-      body: Consumer<JobsNotifier>(
-        builder: (context, jobsNotifier, child) {
-          return Column(
-            children: [
-              JobTextField(
-                controller: title,
-                hintext: "Title",
-              ),
-              JobTextField(
-                controller: loc,
-                hintext: "Location",
-              ),
-              JobTextField(
-                controller: desc,
-                hintext: "Description",
-              ),
-              JobTextField(
-                controller: company,
-                hintext: "Company",
-              ),
-              JobTextField(
-                controller: salary,
-                hintext: "Salary",
-              ),
-              JobTextField(
-                controller: period,
-                hintext: "Period",
-              ),
-              JobTextField(
-                controller: contract,
-                hintext: "Contract",
-              ),
-              HeightSpacer(size: 20),
-              Switch(
-                value: jobsNotifier.isHiring,
-                onChanged: (value) {
-                  jobsNotifier.isHiring = value;
-                },
-              ),
-              HeightSpacer(size: 20),
-              GestureDetector(
-                onTap: () async {
-                  UpdateJobsRequest model = UpdateJobsRequest(
-                    title: title.text,
-                    location: loc.text,
-                    company: company.text,
-                    hiring: jobsNotifier.isHiring,
-                    description: desc.text,
-                    salary: salary.text,
-                    period: period.text,
-                    contract: contract.text,
-                    imageurl:
-                        "https://img.freepik.com/free-vector/colorful-company-logo-template-with-tagline_23-2148802643.jpg",
-                    requirements: [
-                      "requirements",
-                      "requirements",
-                      "requirements"
+      body: Padding(
+        padding: EdgeInsets.all(10),
+        child: SingleChildScrollView(
+          child: Consumer<JobsNotifier>(
+            builder: (context, jobsNotifier, child) {
+              return Column(
+                children: [
+                  Edittextfield(controller: title, text: 'Title'),
+                  Edittextfield(controller: loc, text: 'Location'),
+                  Edittextfield(controller: desc, text: 'Description'),
+                  Edittextfield(controller: company, text: 'Company'),
+                  Edittextfield(controller: salary, text: 'Salary'),
+                  Edittextfield(controller: period, text: 'Period'),
+                  Edittextfield(controller: contract, text: 'Contract'),
+                  const HeightSpacer(size: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Is Hiring",
+                        style:
+                            appstyle(20, Color(kDark.value), FontWeight.w300),
+                      ),
+                      Switch(
+                        value: jobsNotifier.isHiring,
+                        onChanged: (value) {
+                          jobsNotifier.isHiring = value;
+                        },
+                      ),
                     ],
-                  );
+                  ),
+                  const HeightSpacer(size: 20),
+                  GestureDetector(
+                    onTap: () async {
+                      UpdateJobsRequest model = UpdateJobsRequest(
+                        title: title.text,
+                        location: loc.text,
+                        company: company.text,
+                        hiring: jobsNotifier.isHiring,
+                        description: desc.text,
+                        salary: salary.text,
+                        period: period.text,
+                        contract: contract.text,
+                        imageurl:
+                            "https://img.freepik.com/free-vector/colorful-company-logo-template-with-tagline_23-2148802643.jpg",
+                        requirements: [
+                          "requirements",
+                          "requirements",
+                          "requirements"
+                        ],
+                      );
 
-                  Future<bool> response =
-                      JobsHelper.updateJobs(model, widget.Job!.id);
+                      Future<bool> response =
+                          JobsHelper.updateJobs(model, widget.Job!.id);
 
-                  if (await response) {
-                    Get.snackbar(
-                      "Job added",
-                      "Success",
-                      colorText: Color(kLight.value),
-                      backgroundColor: Colors.green,
-                      icon: const Icon(Icons.add_alert),
-                    );
-                    Get.to(() => Mainscreen());
-                  } else {
-                    Get.snackbar(
-                      "Job added",
-                      "Failed",
-                      colorText: Color(kLight.value),
-                      backgroundColor: Colors.red,
-                      icon: const Icon(Icons.add_alert),
-                    );
-                  }
-                  ;
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 40,
-                  decoration: const BoxDecoration(color: Colors.orange),
-                  child: const Center(child: Text("Add Job")),
-                ),
-              )
-            ],
-          );
-        },
+                      if (await response) {
+                        Get.snackbar(
+                          "Job added",
+                          "Success",
+                          colorText: Color(kLight.value),
+                          backgroundColor: Colors.green,
+                          icon: const Icon(Icons.add_alert),
+                        );
+                        Get.to(() => const Mainscreen());
+                      } else {
+                        Get.snackbar(
+                          "Job added",
+                          "Failed",
+                          colorText: Color(kLight.value),
+                          backgroundColor: Colors.red,
+                          icon: const Icon(Icons.add_alert),
+                        );
+                      }
+                      ;
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 40,
+                      decoration: const BoxDecoration(color: Colors.orange),
+                      child: const Center(child: Text("Update Job")),
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }

@@ -16,9 +16,9 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController pageController = PageController();
+
   @override
   void dispose() {
-    // TODO: implement dispose
     pageController.dispose();
     super.dispose();
   }

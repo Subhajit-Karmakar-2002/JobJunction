@@ -91,6 +91,7 @@ class _HomePageState extends State<HomePage> {
                               color: ShimmerEffect.defaultColor,
                             );
                           } else if (snapshot.hasError) {
+                            print(snapshot);
                             return Container(
                               color: Colors.red,
                             );

@@ -214,7 +214,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 skill3.text,
                                 skill4.text
                               ]);
-                          print(model.phone);
+                       
                           loginNotifier.updateProfile(model);
                         },
                       ),
